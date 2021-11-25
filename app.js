@@ -57,7 +57,7 @@ bot.on('callback_query', (query) => {
   global_chatId = chatId
   const sensor = query.data.match(/\d+/)
   const options = {
-    hostname: `https://afr-pbm-sensor-api.herokuapp.com/`,
+    hostname: `https://afr-pbm-sensor-api.herokuapp.com`,
     port: 443,
     path: `/api/sensor/${sensor[0]}/data`,
     method: 'GET'
@@ -107,7 +107,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, './public')))
 app.set('views', path.join(__dirname, './views'))
 app.set('view engine', 'ejs')
 // =================================== express server configuration ===================================
