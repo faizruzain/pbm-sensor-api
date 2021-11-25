@@ -58,7 +58,7 @@ bot.on('callback_query', (query) => {
   const sensor = query.data.match(/\d+/)
   const options = {
     hostname: `https://afr-pbm-sensor-api.herokuapp.com`,
-    port: 443,
+    // port: 443,
     path: `/api/sensor/${sensor[0]}/data`,
     method: 'GET'
   }
