@@ -1,38 +1,4 @@
 
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@faizruzain
-faizruzain /
-weather-app
-Public
-
-1
-0
-
-    0
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-
-    Settings
-
-weather-app/.gitignore
-@faizruzain
-faizruzain first commit
-Latest commit 87b07c8 23 days ago
-History
-1 contributor
-163 lines (119 sloc) 2.49 KB
-
 # Created by https://www.toptal.com/developers/gitignore/api/windows,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,node
 
@@ -192,22 +158,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
-
 # End of https://www.toptal.com/developers/gitignore/api/windows,node
-
-    © 2021 GitHub, Inc.
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-Loading complete
