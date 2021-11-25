@@ -1,0 +1,7 @@
+<%- include('partials/header.ejs') %>
+<% if(sensor===null) {%>
+<h3>Sensor Tidak Tersedia</h3>
+<%} else { %>
+<h3>Pembacaan Sensor <%= sensor %></h3>
+<%} %>
+<%- include('partials/footer.ejs') %>
