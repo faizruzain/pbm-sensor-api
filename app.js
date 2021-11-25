@@ -40,60 +40,29 @@ bot.onText(/\/show_sensors/, (msg) => {
   })
 })
 
-// bot.onText(/sensor (.+)/i, (msg, match) => {
-//   const chatId = msg.chat.id
-//   global_chatId = msg.chat.id
-
-//   const opt = {parse_mode : "HTML"}
-//   const sensor = msg.text.match(/\d+/)
-//   const res = `<a href="http://127.0.0.1:3000/api/sensor/${sensor[0]}">Sensor ${sensor[0]}</a>`
-//   bot.sendMessage(chatId, res, opt)
-
-// })
-
 // listening on callback button
 bot.on('callback_query', (query) => {
   const chatId = query.from.id
   global_chatId = chatId
   const sensor = query.data.match(/\d+/)
-  const options = {
-    hostname: `https://afr-pbm-sensor-api.herokuapp.com`,
-    // port: 443,
-    path: `/api/sensor/${sensor[0]}/data`,
-    method: 'GET'
-  }
 
-  const req = https.request(options, res => {
+  // make http GET request
+  const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor[0]}/data`
+  https.get(url, (res) => {
     res.on('data', d => {
       d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
       const res = `Pembacaan Sensor ${d.sensor} saat ini dengan data ${d.data}`
       bot.sendMessage(chatId, res, {parse_mode : "HTML"})
     })
-  })
+    
+    res.on('end', () => {
+      console.log('request completed')
+    })
 
-  req.on('error', error => {
+  }).on('error', error => {
     console.error(error)
   })
-  
-  req.end()
-  // console.log(query)
-  // const chatId = query.from.id
-  // global_chatId = chatId
-  // const opt = {parse_mode : "HTML"}
-  // const sensor = query.data.match(/\d+/)
-  // const res = `<a href="http://127.0.0.1:3000/api/sensor/${sensor[0]}">Sensor ${sensor[0]}</a>`
-  // bot.sendMessage(chatId, res, opt)
 
-  // bot.editMessageReplyMarkup({
-  //   reply_markup: [
-  //     [{text: 'Sensor 1', callback_data: '1'}],
-  //     [{text: '<< Back', callback_data: 'back'}]
-  //   ]
-  // },
-  // {
-  //   chat_id: chatId,
-  //   message_id: query.message.message_id
-  // })
 })
 
 bot.on("polling_error", (err) => console.log(err))
