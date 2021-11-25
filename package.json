@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node myCoPilot.js"
+    "start": "node app.js"
   },
   "author": "afr",
   "license": "ISC",
