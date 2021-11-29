@@ -3,11 +3,9 @@ require('dotenv').config()
 // ======================================= dotenv for security =======================================
 
 // ============================================== Modules ==============================================
-// const TelegramBot = require('node-telegram-bot-api')
 const express = require('express')
 const path = require('path')
 const telegramBot = require('./bot/telegramBot')
-// const https = require('https')
 // ============================================== Modules ==============================================
 
 // =================================== express server configuration ===================================
