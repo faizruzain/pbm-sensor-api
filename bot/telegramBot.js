@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api')
 const https = require('https')
 
 // telegram Bot token
-const token = process.env.TOKEN  //process.env.DEV
+const token = process.env.DEV //process.env.TOKEN  
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true})
@@ -10,6 +10,7 @@ const bot = new TelegramBot(token, {polling: true})
 module.exports = function telegramBot() {
   // receiving command from Bot
   let global_chatId
+  let i = 0
 
   bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id
@@ -41,6 +42,7 @@ module.exports = function telegramBot() {
     const chatId = query.from.id
     const message_id = query.message.message_id
     const callback_data = query.data
+    console.log(callback_data + " line 45")
     global_chatId = chatId
 
     if(callback_data === 's1' || callback_data === 's2' || callback_data === 's3') {
@@ -49,7 +51,7 @@ module.exports = function telegramBot() {
       const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
 
       // make http GET request
-      const url =  `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data`
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
       https.get(url, (res) => {
         res.on('data', d => {
           d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
@@ -62,7 +64,81 @@ module.exports = function telegramBot() {
             reply_markup: JSON.stringify({
               inline_keyboard: [
                 [{text: d.data, url: sensorURL}],
-                [{text:'<< Back', callback_data: 'back'}]
+                [{text: 'Refresh', callback_data: `${d.sensor}`}],
+                [{text: '<< Back', callback_data: 'back'}]
+              ]
+            })
+          })
+        
+        })
+      
+        res.on('end', () => {
+          console.log('request completed')
+        })
+
+      }).on('error', error => {
+        console.error(error)
+      })
+
+    } else if(callback_data === '1' || callback_data === '2' || callback_data === '3') {
+      let sensor = callback_data.match(/\d+/)
+      sensor = sensor[0]
+      const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
+
+      // make http GET request
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      https.get(url, (res) => {
+        res.on('data', d => {
+          d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
+          const res = `<pre>    Data Pada Sensor ${d.sensor}:    </pre>`
+          i++
+
+          bot.editMessageText(res, {
+            chat_id: chatId,
+            message_id: message_id,
+            parse_mode: 'HTML',
+            reply_markup: JSON.stringify({
+              inline_keyboard: [
+                [{text: d.data, url: sensorURL}],
+                [{text: 'Refresh', callback_data: `sensor ${sensor} has been updated ${i} times`}],
+                [{text: '<< Back', callback_data: 'back'}]
+              ]
+            })
+          })
+        
+        })
+      
+        res.on('end', () => {
+          console.log('request completed')
+        })
+
+      }).on('error', error => {
+        console.error(error)
+      })
+
+    } else if(/times/.test(callback_data)) {
+      i++
+      console.log(callback_data + " line 121")
+      let sensor = callback_data.match(/\d+/)
+      sensor = sensor[0]
+      const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
+
+      // make http GET request
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      https.get(url, (res) => {
+        res.on('data', d => {
+          d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
+          const res = `<pre>    Data Pada Sensor ${d.sensor}:    </pre>`
+
+          bot.editMessageText(res, {
+            chat_id: chatId,
+            message_id: message_id,
+            parse_mode: 'HTML',
+            reply_markup: JSON.stringify({
+              inline_keyboard: [
+                [{text: d.data, url: sensorURL}],
+                [{text: 'Refresh', callback_data: `sensor ${sensor} has been updated ${i} times`}],
+                [{text: '<< Back', callback_data: 'back'}]
               ]
             })
           })
@@ -92,7 +168,8 @@ module.exports = function telegramBot() {
           ]
         })
       })
-    }
+       
+    } 
 
 
   })
