@@ -13,15 +13,18 @@ router.get('/sensor/:num', (req, res) => {
 
   if(sensor === 1) {
     res.render('sensors', {
-      sensor: sensor
+      sensor: sensor,
+      value: sensor1
     })
   } else if(sensor === 2) {
     res.render('sensors', {
-      sensor: sensor
+      sensor: sensor,
+      value: sensor2
     })
   } else if(sensor === 3) {
     res.render('sensors', {
-      sensor: sensor
+      sensor: sensor,
+      value: sensor3
     })
   } else {
     res.render('sensors', {
