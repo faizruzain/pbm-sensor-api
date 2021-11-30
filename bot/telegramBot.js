@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api')
 const https = require('https')
 
 // telegram Bot token
-const token = process.env.DEV //process.env.TOKEN  
+const token = process.env.TOKEN  //process.env.DEV
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true})
