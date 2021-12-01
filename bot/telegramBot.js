@@ -1,8 +1,10 @@
 const TelegramBot = require('node-telegram-bot-api')
 const https = require('https')
+// const http = require('http')
 
 // telegram Bot token
-const token = process.env.TOKEN  //process.env.DEV
+// const token = process.env.TOKEN
+const token = process.env.DEV
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true})
@@ -42,16 +44,18 @@ module.exports = function telegramBot() {
     const chatId = query.from.id
     const message_id = query.message.message_id
     const callback_data = query.data
-    console.log(callback_data + " line 45")
+    console.log(callback_data + " line 47")
     global_chatId = chatId
 
     if(callback_data === 's1' || callback_data === 's2' || callback_data === 's3') {
+      console.log(callback_data)
       let sensor = callback_data.match(/\d+/)
       sensor = sensor[0]
       const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
 
       // make http GET request
-      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      // const url = `http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data`
       https.get(url, (res) => {
         res.on('data', d => {
           d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
@@ -86,7 +90,8 @@ module.exports = function telegramBot() {
       const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
 
       // make http GET request
-      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      // const url = `http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data`
       https.get(url, (res) => {
         res.on('data', d => {
           d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))
@@ -118,13 +123,14 @@ module.exports = function telegramBot() {
 
     } else if(/times/.test(callback_data)) {
       i++
-      console.log(callback_data + " line 121")
+      console.log(callback_data + " line 126")
       let sensor = callback_data.match(/\d+/)
       sensor = sensor[0]
       const sensorURL = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}`
 
       // make http GET request
-      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data` //`http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      // const url = `http://127.0.0.1:3000/api/sensor/${sensor}/data`
+      const url = `https://afr-pbm-sensor-api.herokuapp.com/api/sensor/${sensor}/data`
       https.get(url, (res) => {
         res.on('data', d => {
           d = JSON.parse(Buffer.from(d, 'base64').toString('ascii'))

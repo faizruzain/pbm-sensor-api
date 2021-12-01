@@ -61,9 +61,12 @@ router.route('/sensor/:num/data')
   })
   .post((req, res) => {
     console.log(req.body)
-    sensor1 = req.body.sensor1.value
-    sensor2 = req.body.sensor2.value
-    sensor3 = req.body.sensor3.value
+    // sensor1 = req.body.sensor1.value
+    // sensor2 = req.body.sensor2.value
+    // sensor3 = req.body.sensor3.value
+    sensor1 = req.body.value1
+    sensor2 = req.body.value2
+    sensor3 = req.body.value3
 
     res.send({message: `we got your data`})
   })
