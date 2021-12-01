@@ -3,8 +3,8 @@ const https = require('https')
 // const http = require('http')
 
 // telegram Bot token
-// const token = process.env.TOKEN
-const token = process.env.DEV
+const token = process.env.TOKEN
+// const token = process.env.DEV
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true})
